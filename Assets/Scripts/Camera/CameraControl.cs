@@ -2,10 +2,10 @@
 
 public class CameraControl : MonoBehaviour
 {
-    public float m_DampTime = 0.2f;                 
-    public float m_ScreenEdgeBuffer = 4f;           
-    public float m_MinSize = 6.5f;                  
-    [HideInInspector] public Transform[] m_Targets; 
+    public float m_DampTime = 0.2f; // Move time to follow the target.             
+    public float m_ScreenEdgeBuffer = 4f;
+    public float m_MinSize = 6.5f; // Min camera size.                  
+    /* [HideInInspector] */ public Transform[] m_Targets; // Target to keep them in camera
 
 
     private Camera m_Camera;                        
@@ -19,7 +19,10 @@ public class CameraControl : MonoBehaviour
         m_Camera = GetComponentInChildren<Camera>();
     }
 
-
+    /// <summary>
+    /// We're using FixedUpdate since we're moving the tanks using the
+    /// FixedUpdate
+    /// </summary>
     private void FixedUpdate()
     {
         Move();
@@ -40,6 +43,8 @@ public class CameraControl : MonoBehaviour
         Vector3 averagePos = new Vector3();
         int numTargets = 0;
 
+        // Getting the number of active targets and adding
+        // its position to the averagePos
         for (int i = 0; i < m_Targets.Length; i++)
         {
             if (!m_Targets[i].gameObject.activeSelf)
@@ -49,6 +54,8 @@ public class CameraControl : MonoBehaviour
             numTargets++;
         }
 
+        // Calculating the average position by dividing the
+        // averagePos by the number of targets.
         if (numTargets > 0)
             averagePos /= numTargets;
 
@@ -80,9 +87,9 @@ public class CameraControl : MonoBehaviour
 
             Vector3 desiredPosToTarget = targetLocalPos - desiredLocalPos;
 
-            size = Mathf.Max (size, Mathf.Abs (desiredPosToTarget.y));
+            size = Mathf.Max(size, Mathf.Abs(desiredPosToTarget.y));
 
-            size = Mathf.Max (size, Mathf.Abs (desiredPosToTarget.x) / m_Camera.aspect);
+            size = Mathf.Max(size, Mathf.Abs(desiredPosToTarget.x) / m_Camera.aspect);
         }
         
         size += m_ScreenEdgeBuffer;
