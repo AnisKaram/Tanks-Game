@@ -5,7 +5,7 @@ public class CameraControl : MonoBehaviour
     public float m_DampTime = 0.2f; // Move time to follow the target.             
     public float m_ScreenEdgeBuffer = 4f;
     public float m_MinSize = 6.5f; // Min camera size.                  
-    /* [HideInInspector] */ public Transform[] m_Targets; // Target to keep them in camera
+    [HideInInspector] public Transform[] m_Targets; // Target to keep them in camera
 
 
     private Camera m_Camera;                        
